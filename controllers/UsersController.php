@@ -8,6 +8,7 @@ use app\models\UsersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Yii;
 
 /**
  * UsersController implements the CRUD actions for Users model.
@@ -72,6 +73,7 @@ class UsersController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                Yii::$app->user->login($model);
                 return $this->redirect(['/users']);
             }
         } else {
