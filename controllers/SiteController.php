@@ -127,6 +127,9 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about');
+        $products = Products::find()->where(['>', 'stock_quantity', 0])->all(); // для сортировки на странице пишем .orderBy
+        return $this->render('about', [
+            'products' => $products
+        ]);
     }
 }
