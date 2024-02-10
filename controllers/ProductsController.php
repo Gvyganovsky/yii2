@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use yii\web\UploadedFile;
+
 /**
  * ProductsController implements the CRUD actions for Products model.
  */
@@ -98,17 +100,36 @@ class ProductsController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($product_id)
-    {
-        $model = $this->findModel($product_id);
+{
+    $model = $this->findModel($product_id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'product_id' => $model->product_id]);
+    if ($this->request->isPost) {
+        $model->load($this->request->post());
+        $uploadedImage = UploadedFile::getInstance($model, 'image');
+
+        if ($uploadedImage) {
+            $directory = Yii::$app->basePath . '/web/uploads/';
+
+            $oldImage = $model->image;
+            if ($oldImage && is_file($directory . $oldImage)) {
+                unlink($directory . $oldImage);
+            }
+
+            $file_name = Yii::$app->getSecurity()->generateRandomString(50) . '.' . $uploadedImage->extension;
+            $targetFile = $directory . $file_name;
+
+            if ($uploadedImage->saveAs($targetFile)) {
+                $model->image = $file_name;
+
+                if ($model->validate() && $model->save(false)) {
+                    return $this->redirect(['view', 'product_id' => $model->product_id]);
+                }
+            }
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
+
+    return $this->render('update', ['model' => $model]);
+}
 
     /**
      * Deletes an existing Products model.

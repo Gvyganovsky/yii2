@@ -53,24 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'description',
                 'label' => 'Страна-производитель',
             ],
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Products $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'product_id' => $model->product_id]);
+                 }
+            ],
         ],
     ]); ?>
-
- <!-- // 'id', 
- ['attribute'=>'Фото', 'format'=>'html', 'value'=>function($data){return"<img 
-src='{$data->image}' alt='photo' style='width: 70px;'>";}],
- 'description', 
- 'price', 
- 'count', 
- [ 
- 'class' => ActionColumn::className(), 
- 'urlCreator' => function ($action, Product $model, $key, $index, $column) { 
-26 
- return Url::toRoute([$action, 'id' => $model->id]); 
- } 
- ], 
- ], 
- ]); ?>  -->
-
-
 </div>
+
