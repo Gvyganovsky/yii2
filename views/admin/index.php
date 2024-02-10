@@ -16,14 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="categories-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Просмотр списка заказов', ['/orders']) ?>
-    </p>
-    <p>
-        <?= Html::a('Управление товарами', ['/products']) ?>
-    </p>
-    <p>
-        <?= Html::a('Управление категориями', ['/categories']) ?>
-    </p>
+    
+    <p><a href="/products">Управление товарами</a></p> 
+    <p><a href="/orders">Управление заказами</a></p> 
+    <p><a href="/categories">Управление категориями</a></p> 
 </div>

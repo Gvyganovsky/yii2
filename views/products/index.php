@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\ProductsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Products';
+$this->title = 'Товары';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="products-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Products', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать товар', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,22 +28,49 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'product_id',
-            'name',
-            'description:ntext',
-            'image',
-            'price',
-            //'stock_quantity',
-            //'category_id',
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Products $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'product_id' => $model->product_id]);
-                 }
+                'attribute'=>'Категория', 
+                'value'=> function($data){return $data->getCategory()->One()->name;}
+            ],
+            [
+                'attribute' => 'name',
+                'label' => 'Название',
+            ],
+            [
+                'attribute'=>'Фото', 
+                'format'=>'html', 
+                'value'=>function($data){return"<img src='/web/uploads/{$data->image}' alt='photo' style='width: 70px;'>";}
+            ],
+            [
+                'attribute' => 'stock_quantity',
+                'label' => 'Количество',
+            ],
+            [
+                'attribute' => 'price',
+                'label' => 'Цена',
+            ],
+            [
+                'attribute' => 'description',
+                'label' => 'Страна-производитель',
             ],
         ],
     ]); ?>
+
+ <!-- // 'id', 
+ ['attribute'=>'Фото', 'format'=>'html', 'value'=>function($data){return"<img 
+src='{$data->image}' alt='photo' style='width: 70px;'>";}],
+ 'description', 
+ 'price', 
+ 'count', 
+ [ 
+ 'class' => ActionColumn::className(), 
+ 'urlCreator' => function ($action, Product $model, $key, $index, $column) { 
+26 
+ return Url::toRoute([$action, 'id' => $model->id]); 
+ } 
+ ], 
+ ], 
+ ]); ?>  -->
 
 
 </div>
