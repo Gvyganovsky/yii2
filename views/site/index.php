@@ -63,7 +63,7 @@ $products = $query->all();
                                 <li>Цена: <?= $product->price ?> рублей</li>
                             </ul>
                             <button type="button" class="w-100 btn btn-lg btn-outline-primary">
-                                <?= Html::a('Просмотр товара', ['/products/view', 'id' => $product->product_id]) ?>
+                                <a href="/products/<?= $product->product_id ?>">Просмотр товара</a>
                             </button>
                         </div>
                     </div>
@@ -75,3 +75,4 @@ $products = $query->all();
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+
