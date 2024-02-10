@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-
+use Yii;
 use app\models\Products;
 use app\models\ProductsSearch;
 use yii\web\Controller;
@@ -13,6 +13,14 @@ use yii\filters\VerbFilter;
  */
 class ProductsController extends Controller
 {
+    public function beforeAction($action) {
+        if (Yii::$app->user->isGuest || Yii::$app->user->identity->isAdmin != 1) {
+            $this->redirect(['/site/login']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritDoc
      */

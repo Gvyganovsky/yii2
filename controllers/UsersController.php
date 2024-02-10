@@ -15,6 +15,14 @@ use Yii;
  */
 class UsersController extends Controller
 {
+    public function beforeAction($action) {
+        if (Yii::$app->user->isGuest || Yii::$app->user->identity->isAdmin != 1) {
+            $this->redirect(['/site/login']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritDoc
      */

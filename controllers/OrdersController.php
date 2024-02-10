@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Orders;
 use app\models\OrdersSearch;
 use yii\web\Controller;
@@ -13,6 +14,14 @@ use yii\filters\VerbFilter;
  */
 class OrdersController extends Controller
 {
+    public function beforeAction($action) {
+        if (Yii::$app->user->isGuest || Yii::$app->user->identity->isAdmin != 1) {
+            $this->redirect(['/site/login']);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritDoc
      */
