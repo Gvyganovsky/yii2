@@ -7,35 +7,45 @@ use yii\helpers\Html;
 $this->title = 'About';
 ?>
 <div class="site-about">
-    <div class="container py-3">
+  <?php
 
-        <main class="text-center">
-            <span class="fs-4">FlowerWorld — укрась жизнь красками</span>
+use yii\bootstrap5\Carousel;
 
-            <h1 class="mb-2">Новинки компании</h1>
+$this->title = 'Мой слайдер';
 
-            <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
-                <div class="carousel-inner" style="height: 740px">
-                    <?php
-                        foreach($products as $product) {
-                            echo '
-                                    <div class="carousel-item">
-                                        <img src="../web/uploads/'.$product->image.'" alt="Product Image" style="max-width: 400px; height: 600px;margin-bottom: 24px">
-                                        <h2>'.$product->name.'</h2>
-                                    </div>
-                                ';
-                        }
-                    ?>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: black"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: black"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </main>
+?>
+
+<style>
+    body {
+        background-color: #212529;
+    }
+
+    .carousel-indicators {
+        margin-top: 24px;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: gray;
+    }
+</style>
+
+<div class="site-index" >
+    <div class="body-content flex text-center">
+        <?php
+        echo Carousel::widget([
+            'items' => array_map(function ($product) {
+                return [
+                    'content' => '<img src="../web/uploads/' . $product->image . '" alt="Product Image" style="max-width: 400px; height: 600px;margin-bottom: 8px">' .
+                        '<h2 style="color: white; margin-bottom: 42px;">' . $product->name . '</h2>',
+                    'options' => [],
+                ];
+            }, $products),
+        ]);
+        ?>
+
     </div>
+
+</div>
+
 </div>
