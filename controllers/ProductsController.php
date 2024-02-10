@@ -76,21 +76,33 @@ class ProductsController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionCreate()
-    {
-        $model = new Products();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'product_id' => $model->product_id]);
+{
+    $model = new Products();
+    if ($this->request->isPost) {
+        $model->load($this->request->post());
+        $uploadedImage = UploadedFile::getInstance($model, 'image');
+        if ($uploadedImage) {
+            $directory = Yii::$app->basePath . '/web/uploads/';
+            $file_name = Yii::$app->getSecurity()->generateRandomString(50) . '.' . $uploadedImage->extension;
+            $targetFile = $directory . $file_name;
+            if ($uploadedImage->saveAs($targetFile)) {
+                $model->image = $file_name;
+                if ($model->validate() && $model->save(false)) {
+                    return $this->redirect(['view', 'product_id' => $model->product_id]);
+                }
             }
         } else {
-            $model->loadDefaultValues();
+            if ($model->validate() && $model->save(false)) {
+                return $this->redirect(['view', 'product_id' => $model->product_id]);
+            }
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+    } else {
+        $model->loadDefaultValues();
     }
+    return $this->render('create', [
+        'model' => $model,
+    ]);
+}
 
     /**
      * Updates an existing Products model.
@@ -102,11 +114,9 @@ class ProductsController extends Controller
     public function actionUpdate($product_id)
 {
     $model = $this->findModel($product_id);
-
     if ($this->request->isPost) {
         $model->load($this->request->post());
         $uploadedImage = UploadedFile::getInstance($model, 'image');
-
         if ($uploadedImage) {
             $directory = Yii::$app->basePath . '/web/uploads/';
 
@@ -114,20 +124,17 @@ class ProductsController extends Controller
             if ($oldImage && is_file($directory . $oldImage)) {
                 unlink($directory . $oldImage);
             }
-
             $file_name = Yii::$app->getSecurity()->generateRandomString(50) . '.' . $uploadedImage->extension;
             $targetFile = $directory . $file_name;
 
             if ($uploadedImage->saveAs($targetFile)) {
                 $model->image = $file_name;
-
                 if ($model->validate() && $model->save(false)) {
                     return $this->redirect(['view', 'product_id' => $model->product_id]);
                 }
             }
         }
     }
-
     return $this->render('update', ['model' => $model]);
 }
 
