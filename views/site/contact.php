@@ -13,7 +13,7 @@ $this->title = 'Contact';
 <div class="site-contact">
 <div class="container py-3">
     <main style="display: grid; justify-content: center; text-align: center">
-        <img src="/web/uploads/map.png" alt="map" style="width: 620px">
+        <img src="../uploads/map.png" alt="map" style="width: 620px">
         <p>Адрес: г. Санкт-Петербург, ул. Красная, д. 6</p>
         <p>Номер телефона: 8 800 555 35 35</p>
         <p>flowerworld@gmail.com</p>

@@ -48,6 +48,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'products/<product_id:\d+>' => 'products/view',
             ],
         ],
     ],

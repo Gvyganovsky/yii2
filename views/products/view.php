@@ -12,31 +12,22 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="products-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'product_id' => $model->product_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'product_id' => $model->product_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'product_id',
-            'name',
-            'description:ntext',
-            'image',
-            'price',
-            'stock_quantity',
-            'category_id',
-        ],
-    ]) ?>
-
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" style="display: flex; justify-content: center;">
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal"><?= $model->name ?></h4>
+                    </div>
+                    <div class="card-body">
+                        <img src="/web/uploads/<?= $model->image ?>" alt="product" width="300px" height="360px"/>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Цена: <?= $model->price ?> рублей</li>
+                        </ul>
+                        <button type="button" class="w-100 btn btn-lg btn-outline-primary">
+                            
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </div>
 </div>
