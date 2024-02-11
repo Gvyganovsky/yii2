@@ -23,9 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>Цена: <?= $model->price ?> рублей</li>
                         </ul>
-                        <button type="button" class="w-100 btn btn-lg btn-outline-primary">
-                            
-                        </button>
+                        <?php if (!YII::$app->user->isGuest): ?>
+                            <button type="button" class="w-100 btn btn-lg btn-outline-primary buy-btn" data-product-id="<?= $model->product_id ?>">
+                                Купить
+                            </button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

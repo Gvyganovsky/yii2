@@ -8,12 +8,18 @@ $this->title = 'My Yii Application';
 
 // Получение параметров из URL
 $orderBy = Yii::$app->request->get('orderBy', 'name'); // параметр сортировки по умолчанию
+$orderDirection = Yii::$app->request->get('orderDirection', 'asc'); // параметр направления сортировки по умолчанию
 $categoryFilter = Yii::$app->request->get('categoryFilter');
 
 // Построение запроса к товарам с учетом сортировки и фильтрации
 $query = \app\models\Products::find();
-$query->andFilterWhere(['category' => $categoryFilter]);
-$query->orderBy([$orderBy => SORT_ASC]); // сортировка
+
+// Получение ID категории по имени
+$categoryModel = Categories::findOne(['name' => $categoryFilter]);
+$categoryFilterId = ($categoryModel) ? $categoryModel->category_id : null;
+
+$query->andFilterWhere(['category_id' => $categoryFilterId]);
+$query->orderBy([$orderBy => ($orderDirection == 'asc' ? SORT_ASC : SORT_DESC)]); // сортировка
 
 $products = $query->all();
 ?>
@@ -29,9 +35,11 @@ $products = $query->all();
                     Упорядочить по:
                 </button>
                 <ul class="dropdown-menu">
-                    <li><?= Html::a('стране поставщика', ['index', 'orderBy' => 'country']) ?></li>
-                    <li><?= Html::a('наименованию', ['index', 'orderBy' => 'name']) ?></li>
-                    <li><?= Html::a('цене', ['index', 'orderBy' => 'price']) ?></li>
+                    <li><?= Html::a('стране поставщика (по возрастанию)', ['index', 'orderBy' => 'description', 'orderDirection' => 'asc']) ?></li>
+                    <li><?= Html::a('наименованию (по возрастанию)', ['index', 'orderBy' => 'name', 'orderDirection' => 'asc']) ?></li>
+                    <li><?= Html::a('цене (по возрастанию)', ['index', 'orderBy' => 'price', 'orderDirection' => 'asc']) ?></li>
+                    <li><?= Html::a('наименованию (по убыванию)', ['index', 'orderBy' => 'name', 'orderDirection' => 'desc']) ?></li>
+                    <li><?= Html::a('цене (по убыванию)', ['index', 'orderBy' => 'price', 'orderDirection' => 'desc']) ?></li>
                 </ul>
             </div>
             <div class="dropdown">
@@ -75,4 +83,3 @@ $products = $query->all();
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-
